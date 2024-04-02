@@ -19,7 +19,7 @@ public class Main
 
     private bool IsAddressValid(string address)
     {
-        return address.Contains("hour") || address.Contains("week");
+        return (address.Contains("hour") || address.Contains("week")) && address.Contains("@followup.cc");
     }
 
     private int GetDays(string address)

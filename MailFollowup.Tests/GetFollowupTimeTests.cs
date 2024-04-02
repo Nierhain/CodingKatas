@@ -51,7 +51,7 @@ public class GetFollowupTimeTests
     }
 
     [Fact]
-    public void GivenAFaultyFollowup_ThrowArgumentException()
+    public void GivenAFaultyFollowupTime_ThrowArgumentException()
     {
         //Arrange
         var date = new DateTime(2024, 4, 2, 12, 0, 0);
@@ -71,6 +71,19 @@ public class GetFollowupTimeTests
         var actual = _sut.GetFollowupTime(mail.Now, mail.FollowupAddress);
         //Assert
         actual.Should().Be(mail.Expected);
+    }
+
+    [Fact]
+    public void GivenAFaultyFollowupAddress_ThrowArgumentException()
+    {
+        //Arrange
+        var date = new DateTime(2024, 4, 2, 12, 0, 0);
+        var followup = "2weeks4hours";
+        //Act
+        Action act = () => _sut.GetFollowupTime(date, followup);
+        //Assert
+        act.Should().Throw<ArgumentException>()
+            .WithMessage($"Followup address '{followup}' is invalid.");
     }
 
     [Fact]
