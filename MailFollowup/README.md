@@ -40,3 +40,10 @@ implementation of a feature.
 Also use this as a way to tell if TDD is a tool worth using for my projects in the future or if it's just a hindrance.
 
 ## Results / Conclusion
+
+- First Impressions: Red-Green-Refactor-Cycle seems to be really addictive.\
+Seeing green test after cleaning up functions is a good feeling and sometimes
+you write the next test just to get another test you can turn green.\
+Might encourage feature creep? \
+Only in the beginning? \
+Does code/test quality suffer from adding too many irrelevant tests?
