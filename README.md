@@ -6,7 +6,7 @@ A place to store all my coding katas and lessons learned regarding actual coding
 
 ### Function Katas
 
-- [Mail Followup](../tree/main/MailFollowup)
+- [Mail Followup](/MailFollowup)
 
 ### Class Katas
 
