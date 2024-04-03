@@ -12,7 +12,7 @@ public class Main
         }
         
         var days = GetDays(address);
-        var hours = GetHours(address);
+        var hours = GetDurationFromString(address, "hour");
         
         return now.AddDays(days).AddHours(hours);
     }
@@ -22,33 +22,21 @@ public class Main
         return (address.Contains("hour") || address.Contains("week")) && address.Contains("@followup.cc");
     }
 
+    private int GetDurationFromString(string address, string duration)
+    {
+        if (!address.Contains(duration)) return 0;
+        var temp = address.Split(duration)[0];
+        var tempDuration = temp.Substring(GetLastIndexOfLetters(temp) + 1);
+        return Convert.ToInt32(tempDuration);
+    }
+
     private int GetDays(string address)
     {
-        string weekString = "0", dayString = "0";
-        if (address.Contains("week"))
-        {
-            var temp = address.Split("week")[0];
-            weekString = temp.Substring(GetLastIndexOfLetters(temp) + 1);
-        }
-
-        if (address.Contains("day"))
-        {
-            var temp = address.Split("day")[0];
-            dayString = temp.Substring(GetLastIndexOfLetters(temp) + 1);
-        }
-        return Convert.ToInt32(weekString) * 7 + Convert.ToInt32(dayString);
+        return GetDurationFromString(address, "week") * 7 + GetDurationFromString(address, "day");
     }
 
     private int GetLastIndexOfLetters(string line)
     {
         return line.LastIndexOfAny(['s', 'k', 'r', 'y']);
-    }
-
-    private int GetHours(string address)
-    {
-        if (!address.Contains("hour")) return 0;
-        var hourString = address.Split("hour")[0];
-        var lastIndex = GetLastIndexOfLetters(hourString);
-        return Convert.ToInt32(hourString.Substring(lastIndex + 1));
     }
 }

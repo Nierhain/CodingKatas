@@ -20,7 +20,7 @@ Possible mail addresses include:
     7days@followup.cc // 7 Days from now
     12hours@followup.cc //  12 hours from now
     aug15-9am@followup.cc // the next 15th August at 9 o'clock
-    1week3days5hours@followup.cc // 1 week 3 days and 5 hours from now
+    1week3days5hours@followup.cc // 1 week, 3 days and 5 hours from now
 ```
 
 ## Tools used
