@@ -24,16 +24,31 @@ public class Main
 
     private int GetDays(string address)
     {
-        if (!address.Contains("week")) return 0;
-        var weekString = address.Split("week")[0];
-        return Convert.ToInt32(weekString) * 7;
+        string weekString = "0", dayString = "0";
+        if (address.Contains("week"))
+        {
+            var temp = address.Split("week")[0];
+            weekString = temp.Substring(GetLastIndexOfLetters(temp) + 1);
+        }
+
+        if (address.Contains("day"))
+        {
+            var temp = address.Split("day")[0];
+            dayString = temp.Substring(GetLastIndexOfLetters(temp) + 1);
+        }
+        return Convert.ToInt32(weekString) * 7 + Convert.ToInt32(dayString);
+    }
+
+    private int GetLastIndexOfLetters(string line)
+    {
+        return line.LastIndexOfAny(['s', 'k', 'r', 'y']);
     }
 
     private int GetHours(string address)
     {
         if (!address.Contains("hour")) return 0;
         var hourString = address.Split("hour")[0];
-        var lastIndex = hourString.LastIndexOfAny(['s', 'k', 'r']);
+        var lastIndex = GetLastIndexOfLetters(hourString);
         return Convert.ToInt32(hourString.Substring(lastIndex + 1));
     }
 }

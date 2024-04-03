@@ -86,14 +86,13 @@ public class GetFollowupTimeTests
             .WithMessage($"Followup address '{followup}' is invalid.");
     }
 
-    [Fact]
-    public void Given_Then()
+    [Theory]
+    [MemberData(nameof(MailFollowupGenerators.DaysAndHours), MemberType = typeof(MailFollowupGenerators))]
+    public void GivenADurationInDays_ThenReturnValidDateTime(MailFollowupObject mail)
     {
-        //Arrange
-
         //Act
-
+        var actual = _sut.GetFollowupTime(mail.Now, mail.FollowupAddress);
         //Assert
-
+        actual.Should().Be(mail.Expected);
     }
 }
