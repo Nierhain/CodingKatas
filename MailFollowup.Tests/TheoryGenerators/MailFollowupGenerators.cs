@@ -3,6 +3,14 @@
 public record MailFollowupObject(DateTime Now, string FollowupAddress, DateTime Expected);
 public class MailFollowupGenerators
 {
+    public static IEnumerable<object[]> DatesAndTime => new List<object[]>()
+    {
+        new object[]{ new MailFollowupObject(new DateTime(2024, 1, 1, 12, 0, 0), "aug15@followup.cc", new DateTime(2024, 8, 15, 12, 0, 0))},
+        new object[]{ new MailFollowupObject(new DateTime(2024, 1, 1, 12, 0, 0), "aug15-9am@followup.cc", new DateTime(2024, 8, 15, 9, 0, 0))},        
+        new object[]{ new MailFollowupObject(new DateTime(2024, 8, 16, 12, 0, 0), "aug15@followup.cc", new DateTime(2025, 8, 15, 12, 0, 0))},
+        new object[]{ new MailFollowupObject(new DateTime(2024, 9, 30, 12, 0, 0), "aug15-9am@followup.cc", new DateTime(2025, 8, 15, 9, 0, 0))},
+    };
+
     public static IEnumerable<object[]> DaysAndHours =>
     new List<object[]>()
     {

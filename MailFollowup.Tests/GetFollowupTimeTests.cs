@@ -95,4 +95,15 @@ public class GetFollowupTimeTests
         //Assert
         actual.Should().Be(mail.Expected);
     }
+
+    [Theory]
+    [MemberData(nameof(MailFollowupGenerators.DatesAndTime), MemberType = typeof(MailFollowupGenerators))]
+    public void GivenADateAsFollowup_ThenReturnThatDateAsTheNextOccurence(MailFollowupObject mail)
+    {
+        
+        //Act
+        var actual = _sut.GetFollowupTime(mail.Now, mail.FollowupAddress);
+        //Assert
+        actual.Should().Be(mail.Expected);
+    }
 }
