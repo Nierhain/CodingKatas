@@ -26,7 +26,7 @@ Possible mail addresses include:
 ## Tools used
 
 - Paradigm: TDD
-- Language: C# (.NET 8)
+- Language: C# 12 (.NET 8)
 - IDE: JetBrains Rider 2023.3.4
 - Version Control: Git
 - Packages:
