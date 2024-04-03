@@ -23,9 +23,18 @@ public class Main
                 month = i + 1;
                 break;
             }
-
             var day = GetDurationFromMonthString(address, Months[month - 1]);
-            var next = new DateTime(now.Year, month, day, now.Hour, now.Minute, now.Second);
+
+            var time = now.Hour;
+            if (address.Contains("am") || address.Contains("pm"))
+            {
+                var isAm = address.Contains("am");
+                var timeString = address.Split(isAm ? "am" : "pm");
+                var firstIndex = GetLastIndexOfLetters(timeString[0]);
+                time = Convert.ToInt32(timeString[0].Substring(firstIndex + 1)) + (Convert.ToInt32(!isAm)) * 12;
+            }
+            
+            var next = new DateTime(now.Year, month, day, time, now.Minute, now.Second);
 
             if (next < now)
             {
@@ -43,7 +52,7 @@ public class Main
 
     private bool IsAddressValid(string address)
     {
-        return (address.Contains("hour") || address.Contains("week") || address.Contains("day") || Months.Any(address.Contains)) && address.Contains("@followup.cc");
+        return (address.Contains("hour") || address.Contains("week") || address.Contains("day") || Months.Any(address.Contains) ) && address.Contains("@followup.cc");
     }
 
     private int GetDurationFromString(string address, string duration)
@@ -69,6 +78,6 @@ public class Main
 
     private int GetLastIndexOfLetters(string line)
     {
-        return line.LastIndexOfAny(['s', 'k', 'r', 'y']);
+        return line.LastIndexOfAny(['s', 'k', 'r', 'y', '-']);
     }
 }
