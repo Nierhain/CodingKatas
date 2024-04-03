@@ -49,15 +49,15 @@ Only in the beginning? \
 Does code/test quality suffer from adding too many irrelevant tests?
 
 As I'm now finished with this kata as my first "real" implementation of a feature using TDD i can say, it's quite a relaxing way
-of writing software. After you got into the groove of the R-G-R-Cycle it's not that much of a burden to write the tests.
+of writing software. After you got into the groove of red-green-refactor it's not that much of a burden to write the tests or following the cycle.
 Also making changes and seeing all tests light up green or refactoring the date parsing and accidentally breaking the timespan parser resulting
 in a whole lot of "old" tests failing, is really comforting. Normally that would have taken me a bug report or more (manual) 
 testing to find out and fix.
 
-Granted it was a really simple example with clear and concise requirements. But I don't think more complex or vague requirements
-are changing this completely rather it might be relatively proportional.\
+Granted it was a really simple example with clear and concise requirements, I don't think more complex or vague requirements
+are changing this completely. Rather it'll most likely be proportional to the complexity of the code/feature.\
 \
-Though mocking might be a whole other can of worms, even though it's usage in TDD or testing in general is rather frowned upon.
+Though mocking might be a whole different can of worms, even though it's usage in TDD or testing in general is rather frowned upon.
 But that's a topic for another time or kata
 
 ### In conclusion
