@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace MailFollowup;
 
@@ -12,7 +12,9 @@ public class Main
         if (!IsAddressValid(address))
             throw new ArgumentException($"Followup address '{address}' is invalid.");
         
-
+        if (ContainsDateAndSpan(address))
+            throw new ArgumentException(
+                $"Followup address '{address}' is invalid. You can't mix a date with a timespan");
 
         if (IsDate(address))
         {
@@ -79,6 +81,11 @@ public class Main
     private bool IsAddressValid(string address)
     {
         return (address.Contains("hour") || address.Contains("week") || address.Contains("day") || Months.Any(address.Contains) || address.Contains("am") || address.Contains("pm")) && address.Contains("@followup.cc");
+    }
+
+    private bool ContainsDateAndSpan(string address)
+    {
+        return (address.Contains("hour") || address.Contains("week") || address.Contains("day")) && (Months.Any(address.Contains) || address.Contains("am") || address.Contains("pm"));
     }
 
     private int GetDurationFromString(string address, string duration)

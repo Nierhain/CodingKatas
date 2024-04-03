@@ -114,4 +114,16 @@ public class GetFollowupTimeTests
         //Assert
         actual.Should().Be(mail.Expected);
     }
+
+    [Fact]
+    public void GivenAFollowupWithDateAndTimeFrame_ThenThrowArgumentException()
+    {
+        //Arrange
+        var date = new DateTime();
+        var followup = "aug15-9am2weeks@followup.cc";
+        //Act
+        Action actual = () => _sut.GetFollowupTime(date, followup);
+        //Assert
+        actual.Should().Throw<ArgumentException>().WithMessage($"Followup address '{followup}' is invalid. You can't mix a date with a timespan");
+    }
 }
