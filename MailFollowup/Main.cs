@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 
 namespace MailFollowup;
 
@@ -10,49 +10,75 @@ public class Main
     public DateTime GetFollowupTime(DateTime now, string address)
     {
         if (!IsAddressValid(address))
-        {
             throw new ArgumentException($"Followup address '{address}' is invalid.");
-        }
+        
 
-        if (Months.Any(address.Contains))
+
+        if (IsDate(address))
         {
-            var month = 0;
-            for(int i = 0; i < Months.Length; i++)
-            {
-                if (!address.Contains(Months[i])) continue;
-                month = i + 1;
-                break;
-            }
-            var day = GetDurationFromMonthString(address, Months[month - 1]);
-
-            var time = now.Hour;
-            if (address.Contains("am") || address.Contains("pm"))
-            {
-                var isAm = address.Contains("am");
-                var timeString = address.Split(isAm ? "am" : "pm");
-                var firstIndex = GetLastIndexOfLetters(timeString[0]);
-                time = Convert.ToInt32(timeString[0].Substring(firstIndex + 1)) + (Convert.ToInt32(!isAm)) * 12;
-            }
-            
-            var next = new DateTime(now.Year, month, day, time, now.Minute, now.Second);
-
-            if (next < now)
-            {
-                next = next.AddYears(1);
-            }
-
-            return next;
+            return GetFollowupDateFromDate(now, address);
         }
-
+        
         var days = GetDays(address);
         var hours = GetDurationFromString(address, "hour");
         
         return now.AddDays(days).AddHours(hours);
     }
 
+    private DateTime GetFollowupDateFromDate(DateTime now, string address)
+    {
+        var year = now.Year;
+        var month = now.Month;
+        var time = now.Hour;
+        var day = now.Day;
+        if (Months.Any(address.Contains))
+        {
+            for(var i = 0; i < Months.Length; i++)
+            {
+                if (!address.Contains(Months[i])) continue;
+                month = i + 1;
+                break;
+            }
+                
+            day = GetDurationFromMonthString(address, Months[month - 1]);
+            if (day <= now.Day && month <= now.Month)
+            {
+                year++;
+            }
+        }
+            
+        if (address.Contains("am") || address.Contains("pm"))
+        {
+            var isAm = address.Contains("am");
+            time = GetDurationFromString(address,isAm ? "am" : "pm");
+            
+            if (!isAm)
+            {
+                if (time == 12) time = 12;
+                else time = time + 12;
+            }
+            if (time == 24 || (time == 12 && isAm))
+            {
+                time = 0;
+            }
+        }
+            
+        if (time <= now.Hour && year == now.Year && day == now.Day && month == now.Month)
+        {
+            day++;
+        }
+            
+        return new DateTime(year, month, day, time, now.Minute, now.Second);
+    }
+
+    private bool IsDate(string address)
+    {
+        return Months.Any(address.Contains) || address.Contains("am") || address.Contains("pm");
+    }
+
     private bool IsAddressValid(string address)
     {
-        return (address.Contains("hour") || address.Contains("week") || address.Contains("day") || Months.Any(address.Contains) ) && address.Contains("@followup.cc");
+        return (address.Contains("hour") || address.Contains("week") || address.Contains("day") || Months.Any(address.Contains) || address.Contains("am") || address.Contains("pm")) && address.Contains("@followup.cc");
     }
 
     private int GetDurationFromString(string address, string duration)
@@ -65,7 +91,7 @@ public class Main
     
     private int GetDurationFromMonthString(string address, string month)
     {
-        if (!address.Contains(month)) return 0;
+        if (!address.Contains(month)) return -1;
         var temp = address.Split(month)[1];
         var tempDuration = temp.Substring(0, temp.IndexOfAny(['-', '@']));
         return Convert.ToInt32(tempDuration);
